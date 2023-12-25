@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lab_3.HelloController">
+   <children>
+      <Button layoutX="800.0" layoutY="40.0" mnemonicParsing="false" onAction="#addPoint" text="Add" />
+      <Button layoutX="800.0" layoutY="10.0" mnemonicParsing="false" onAction="#getNumberOfVisiblePoints" text="Get Points" />
+      <TextField layoutX="800.0" layoutY="70.0" fx:id="xAxisTextField" />
+      <TextField fx:id="yAxisTextField" layoutX="1000.0" layoutY="70.0" />
+      <TextField fx:id="NumberOfVisible" layoutX="887.0" layoutY="10.0" />
+      <Button layoutX="1061.0" layoutY="10.0" mnemonicParsing="false" text="Get all" onAction="#getAllPoints"/>
+   </children>
+</AnchorPane>
