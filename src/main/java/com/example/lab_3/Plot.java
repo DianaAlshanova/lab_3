@@ -14,6 +14,8 @@ public class Plot extends ScrollPane {
     private static final double PREF_HEIGHT = 600;
     private static final double PREF_WIDTH = 800;
 
+    private final NumberAxis xAxis;
+    private final NumberAxis yAxis;
     private final XYChart.Series series = new XYChart.Series();
     private final Map<Long, Point2D> points = new TreeMap<>();
 
@@ -28,14 +30,16 @@ public class Plot extends ScrollPane {
             double yStep
     ) {
         this.setPrefSize(PREF_WIDTH, PREF_HEIGHT);
-        NumberAxis xAxis = new NumberAxis(xLabel, minXValue, maxXValue, xStep);
-        NumberAxis yAxis = new NumberAxis(yLabel, minYValue, maxYValue, yStep);
+        xAxis = new NumberAxis(xLabel, minXValue, maxXValue, xStep);
+        yAxis = new NumberAxis(yLabel, minYValue, maxYValue, yStep);
         ScatterChart<String, Number> chart = new ScatterChart(xAxis, yAxis);
+        chart.setPrefSize(PREF_WIDTH - 20.0, PREF_HEIGHT - 20.0);
         chart.getData().addAll(series);
         this.setContent(chart);
     }
 
     public void addPoint(Point2D point) {
+        calculateNewBounds(point);
         points.put(System.currentTimeMillis(), point);
     }
 
@@ -68,5 +72,23 @@ public class Plot extends ScrollPane {
         } catch (Exception ignored) {}
 
         return localMap;
+    }
+
+    private void calculateNewBounds(Point2D point) {
+        if (point.getX() >= xAxis.getUpperBound()) {
+            xAxis.setUpperBound(xAxis.getUpperBound() + (point.getX() - xAxis.getUpperBound()));
+        }
+
+        if (point.getY() >= yAxis.getUpperBound()) {
+            yAxis.setUpperBound(yAxis.getUpperBound() + (point.getY() - yAxis.getUpperBound()));
+        }
+
+        if (point.getX() <= xAxis.getLowerBound()) {
+            xAxis.setLowerBound(xAxis.getLowerBound() - (xAxis.getLowerBound() - point.getX()));
+        }
+
+        if (point.getY() <= yAxis.getLowerBound()) {
+            yAxis.setLowerBound(yAxis.getLowerBound() - (yAxis.getLowerBound() - point.getY()));
+        }
     }
 }
